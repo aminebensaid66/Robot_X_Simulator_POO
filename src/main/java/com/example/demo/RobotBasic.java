@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public class RobotBasic extends Robot {
+/*public class RobotBasic extends Robot {
     public RobotBasic( Point position, double batteryLevel,double conso) {
         super(batteryLevel,position,conso);
     }
@@ -11,7 +11,6 @@ public class RobotBasic extends Robot {
             System.out.println("Moving from( " + position.x +","+position.y + ") to (" +   destination.x +","+destination.y +")");
             batteryLevel-=1;
             position = destination;
-
         }
         else {
             System.out.println("Cette instruction n'est pas valide");
@@ -19,4 +18,4 @@ public class RobotBasic extends Robot {
     }
 
 
-}
+}*/
