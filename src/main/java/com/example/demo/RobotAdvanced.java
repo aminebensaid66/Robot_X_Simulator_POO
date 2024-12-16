@@ -1,16 +1,14 @@
 package com.example.demo;
 
 
-/*public class RobotAdvanced extends Robot {
-    public RobotAdvanced(Point position, double batteryLevel,double conso) {
-        super( batteryLevel,position,conso);
-    }
+public class RobotAdvanced extends Robot {
 
-    @Override
+    public RobotAdvanced( double batteryLevel,Point position) {
+        super( batteryLevel,position);
+        super.consommation=15;
+    }
     public void moveTo(Point destination) {
         System.out.println("Moving from( " + position.x +","+position.y + ") to (" +   destination.x +","+destination.y +")");
-        batteryLevel-=conso;
         position = destination;
     }
 }
-*/

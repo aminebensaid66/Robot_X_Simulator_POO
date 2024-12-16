@@ -1,11 +1,10 @@
 package com.example.demo;
 
-/*public class RobotBasic extends Robot {
-    public RobotBasic( Point position, double batteryLevel,double conso) {
-        super(batteryLevel,position,conso);
+public class RobotBasic extends Robot {
+    public RobotBasic(double batteryLevel,Point position) {
+        super(batteryLevel,position);
+        super.consommation=10;
     }
-
-    @Override
     public void moveTo(Point destination) {
         if((destination.x==position.x && Math.abs(destination.y-position.y)==1)||(destination.y==position.y && Math.abs(destination.x-position.x)==1)) {
             System.out.println("Moving from( " + position.x +","+position.y + ") to (" +   destination.x +","+destination.y +")");
@@ -18,4 +17,4 @@ package com.example.demo;
     }
 
 
-}*/
+}

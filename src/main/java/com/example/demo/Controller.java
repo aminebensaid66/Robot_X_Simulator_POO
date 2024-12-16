@@ -11,11 +11,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
-
+import javafx.scene.control.ComboBox;
 import java.util.List;
-
+import javafx.scene.control.Label;
 public class Controller {
     int w=0;
+    @FXML
+    private ComboBox<String> myComboBox;
+    @FXML
+    private Label label;
     @FXML
     private TextField rowsField;
 
@@ -51,6 +55,7 @@ public class Controller {
 
     @FXML
     private void initialize() {
+        myComboBox.getItems().addAll("Robot simple", "Robot avancee");
     }
 
     private void showError(String message) {
@@ -75,7 +80,14 @@ public class Controller {
         else if (w==3) {
             Point newPosition = new Point(y, x);
             if (robot == null){
-                robot=new Robot(100, newPosition);
+                String selectedValue = myComboBox.getValue();
+                if("Robot simple".equals(selectedValue)){
+                    robot=new RobotBasic(100, newPosition);
+                }
+                else {
+                    robot = new RobotAdvanced(100, newPosition);
+                }
+
                 System.out.println("Robot position set to: (" + x + ", " + y + ")");
                 updateCellButton(x,y); // Refresh the grid to show the robot in the new position
                 w=0; // Disable the mode after setting
@@ -175,9 +187,15 @@ public class Controller {
         }}
     @FXML
     private void handleAddRobot() {
-        w=3;
+        String selectedValue = myComboBox.getValue();
+        System.out.println(selectedValue);
+        if(selectedValue==null){
+            showError("choisir un type de robot");
+            w=0;
+        }
+        else{w=3;
         System.out.println("Click on a cell to set the robot's position.");
-    }
+    }}
     @FXML
     private void handleSetMapDimensions() {
         try {
@@ -200,9 +218,12 @@ public class Controller {
     public void simulatePath(List<Point> path) {
         if (path == null || path.isEmpty()) {
             System.out.println("Path is empty or null.");
+            label.setText("Path is empty or null."); // Update label to reflect error
             return;
         }
         System.out.println("Starting simulation at: " + path.get(0));
+        label.setText("Moving"); // Initial state
+
         Timeline timeline = new Timeline();
         final int[] step = {0};
 
@@ -211,32 +232,30 @@ public class Controller {
                 Point currentPoint = path.get(step[0]);
 
                 // Highlight the current position
-                updateCellStyle(currentPoint.y, currentPoint.x, "#48a1d9"); // Robot's color
-
-                // Clear the previous position after moving
-                if (step[0] > 0) {
-                    Point prevPoint = path.get(step[0] - 1);
-                    if (!prevPoint.equals(currentPoint)) { // Avoid clearing if still at the same charging point
-                        updateCellStyle(prevPoint.y, prevPoint.x, "lightgray"); // Reset to default style
-                    }
-                }
+                updateCellStyle(currentPoint.y, currentPoint.x, "#48a1d9"); // Robot's path color
 
                 // Check if the robot is at a charging station
                 if (step[0] > 0 && currentPoint.equals(path.get(step[0] - 1))) {
-                    // Robot stays at the charging station for 5 seconds
-                    timeline.pause();
-                    System.out.println("Charging at:( " + currentPoint.x+","+currentPoint.y+")");
+                    // Update state to "Charging"
+                    label.setText("Charging");
+                    timeline.pause(); // Pause timeline during charging
+                    System.out.println("Charging at: (" + currentPoint.x + "," + currentPoint.y + ")");
 
                     // Resume after 5 seconds
                     new Timeline(new KeyFrame(Duration.seconds(5), e -> {
                         step[0]++;
+                        label.setText("Moving"); // Resume moving
                         timeline.play();
                     })).play();
                     return; // Exit this frame early to avoid incrementing step again
                 }
 
-                step[0]++; // Move to the next step if not charging
+                // Move to the next step
+                step[0]++;
             } else {
+                // Update state to "Arrived" when path is complete
+                label.setText("Arrived");
+                System.out.println("Simulation completed.");
                 timeline.stop(); // Stop the timeline when the path is complete
             }
         });

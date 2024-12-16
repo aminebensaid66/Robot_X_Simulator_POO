@@ -54,13 +54,13 @@ public class Pathfinding {
         for (int i = 0; i < path.size() - 1; i++) {
             Point current = path.get(i);
             Point next = path.get(i + 1);
-            cost += (current.x == next.x || current.y == next.y) ? 10 : 14;//cost per case
+            cost += (current.x == next.x || current.y == next.y) ? robot.consommation : robot.consommation*1.4;//cost per case
         }
         return cost;
     }
 
     private int getPathCost(Point start, Point finish) {
-        Path path = new Path(map.m);
+        Path path = new Path(map.m,robot.consommation);
         List<Point> pathResult = path.findPath(start, finish);
         if (pathResult == null) {
             return Integer.MAX_VALUE;
@@ -85,7 +85,7 @@ public class Pathfinding {
 
     public void findFinalPath() {
         while (true) {
-            Path path = new Path(map.m);
+            Path path = new Path(map.m,robot.consommation);
             List<Point> pathToFinish = path.findPath(start, finish);
 
             if (pathToFinish != null && calculatePathCost(pathToFinish) <= robot.batteryLevel) {
@@ -98,7 +98,7 @@ public class Pathfinding {
                 return;
             }
 
-            Path pathToStation = new Path(map.m);
+            Path pathToStation = new Path(map.m,robot.consommation);
             List<Point> pathToStationResult = pathToStation.findPath(start, nextStation.getPosition());
 
             if (pathToStationResult == null || calculatePathCost(pathToStationResult) > robot.batteryLevel) {

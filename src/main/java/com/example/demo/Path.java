@@ -8,10 +8,11 @@ public class Path {
     private List<Point> closedList = new ArrayList<>();
     private List<Point> finalPath = new ArrayList<>();
     private Map map;
-
-    public Path(int[][] map) {
+    private double conso;
+    public Path(int[][] map,double con) {
         this.map = new Map(map.length, map[0].length);
         this.map.m = map;
+        this.conso=con;
     }
 
     public List<Point> findPath(Point start, Point finish) {
@@ -87,6 +88,6 @@ public class Path {
         int dy = Math.abs(a.y - b.y);
         int diagonalSteps = Math.min(dx, dy);
         int straightSteps = Math.abs(dx - dy);
-        return diagonalSteps * 14 + straightSteps * 10;
+        return (int) (diagonalSteps * (this.conso*1.4) + straightSteps * this.conso);
     }
 }

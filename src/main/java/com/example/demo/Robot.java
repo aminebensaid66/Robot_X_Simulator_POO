@@ -4,9 +4,7 @@ public class Robot {
     public double batteryLevel;
     public Point position;
     public String state;
-    public Robot() {
-
-    }
+    public double  consommation;
 
     public Robot(double batteryLevel, Point position) {
         this.batteryLevel = batteryLevel;
