@@ -2,7 +2,7 @@
   <artifact type="jar" name="demo:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/demo_jar</output-path>
     <root id="archive" name="demo.jar">
-      <element id="module-output" name="demo" />
+      <element id="module-output" name="Robot_Simulator" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/22-ea+11/javafx-controls-22-ea+11-mac-aarch64.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/22-ea+11/javafx-controls-22-ea+11.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/22-ea+11/javafx-fxml-22-ea+11-mac-aarch64.jar" path-in-jar="/" />
